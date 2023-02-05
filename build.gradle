@@ -1,0 +1,63 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+  id "org.jetbrains.kotlin.jvm" version "${kotlin_version}"
+  id "application"
+}
+
+group = "trile"
+version = "$project_version"
+
+def jdk_version = System.getenv("JAVA_VERSION")?.trim() ?: "$java_version"
+def mainClass = "trile.MainKt"
+
+dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-reflect"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
+
+  implementation "io.netty:netty-all:$netty_version"
+
+  implementation "org.apache.logging.log4j:log4j-core:$log4j2_version"
+  implementation "org.apache.logging.log4j:log4j-api:$log4j2_version"
+  implementation "org.apache.logging.log4j:log4j-api-kotlin:1.2.0"
+
+
+  testImplementation "org.jetbrains.kotlin:kotlin-test"
+}
+
+test {
+  useJUnitPlatform()
+}
+
+application {
+  mainClassName = "$mainClass"
+}
+
+jar {
+  duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+  manifest {
+    attributes "Main-Class": "$mainClass"
+    attributes "Multi-Release": true
+  }
+
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
+tasks.withType(KotlinCompile).configureEach {
+  kotlinOptions {
+    freeCompilerArgs = ["-Xjsr305=strict"]
+    jvmTarget = jdk_version
+  }
+}
+
+sourceCompatibility = "$jdk_version"
+targetCompatibility = "$jdk_version"
+
+repositories {
+  jcenter()
+  mavenCentral()
+}
