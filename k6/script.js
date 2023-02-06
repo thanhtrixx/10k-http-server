@@ -11,7 +11,7 @@ export const options = {
   vus: 10000,
   preAllocatedVUs: 7500,
   maxVUs: 10000,
-  duration: '60s',
-  setupTimeout: '60s',
+  duration: '20m',
+  setupTimeout: '5m',
   summaryTrendStats: ['avg', 'min', 'med', 'max', 'p(95)', 'p(99)', 'p(99.99)', 'count'],
 };
