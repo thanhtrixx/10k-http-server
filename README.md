@@ -29,7 +29,7 @@ This project follows the principles outlined in the article ["Thousands of Socke
 1. Setup following [How to increase limits on sockets on OSX for load testing](https://stackoverflow.com/a/7580233/544742)
 2. Clone the repository
 3. Build `./gradlew clean build`
-4. Execute `java -jar build/libs/long-polling-server-0.0.1.jar`
+4. Execute `java -jar build/libs/10k-http-server*.jar`
 5. Open other terminal and execute `k6 run k6/script.js`
 
 # Conclusion
